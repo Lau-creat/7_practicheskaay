@@ -108,6 +108,7 @@ void main() {
 ### Задания для закрепления
 
 1. **Конвертер валют:** Напишите функцию, принимающую сумму в рублях (`int`) и курс доллара (`double`), возвращающую строку с результатом, отформатированным строго до 2 знаков после запятой.
+
 <img width="1920" height="1080" alt="2026-10-23_08-46-50" src="https://github.com/user-attachments/assets/9049e46d-8241-4be2-995c-4429c7e7a951" />
 
 ```dart
@@ -130,9 +131,96 @@ String convertCurrency(int rubles, double usdRate) {
 ```
 
 2. **Безопасный калькулятор возраста:** Примите ввод пользователя в виде `String`. Используя `int.tryParse()`, верните возраст или `-1`, если пользователь ввел некорректный текст.
+
+<img width="1920" height="1080" alt="2026-10-23_08-49-53" src="https://github.com/user-attachments/assets/0af33cee-7381-4a2e-8337-302a0b02c0e5" />
+
+```dart
+void main() {
+  // Примеры использования
+  print(parseAge("25"));
+  print(parseAge(" 30 ")); 
+  print(parseAge("двадцать пять"));
+  print(parseAge("-5")); 
+}
+
+
+int parseAge(String input) {
+ 
+  int? age = int.tryParse(input.trim());
+  
+  return age ?? -1; 
+}
+```
+
 3. **Расчет плотности пикселей (DP):** Реализуйте формулу `dp = px / density` с использованием оператора целочисленного или дробного деления.
+
+<img width="1920" height="1080" alt="2026-10-23_08-52-26" src="https://github.com/user-attachments/assets/4b64a12c-2d4c-4d70-a211-37c7a0ba58d0" />
+
+```dart
+void main() {
+  
+  print(calculateDp(100, 2.75)); 
+  print(calculateDp(50, 1.0)); 
+  print(calculateDp(10, 0)); 
+}
+
+
+double calculateDp(double px, double density) {
+  if (density == 0) {
+    return 0.0; 
+  }
+  return px / density;
+}
+```
+
 4. **Побитовые флаги сенсоров:** Используя побитовые операторы `&`, `|` и `<<`, закодируйте состояние трех мобильных датчиков в одну переменную `int`.
+
+<img width="1920" height="1080" alt="2026-10-23_08-55-32" src="https://github.com/user-attachments/assets/7e41d4f6-17ec-4a00-bee6-73306c5aab12" />
+
+```dart
+const int SENSOR_ACCELEROMETER = 1 << 0;
+const int SENSOR_GYROSCOPE = 1 << 1;
+const int SENSOR_MAGNETOMETER = 1 << 2;
+void main() {
+  int sensors = encodeSensors(accel: true, gyro: false, magnet: true);
+  print('Код состояния: $sensors'); 
+  print('Двоичный вид: ${sensors.toRadixString(2).padLeft(3, '0')}'); 
+  print('Акселерометр: ${isSensorActive(sensors, SENSOR_ACCELEROMETER)}'); 
+  print('Гироскоп: ${isSensorActive(sensors, SENSOR_GYROSCOPE)}'); 
+  print('Магнитометр: ${isSensorActive(sensors, SENSOR_MAGNETOMETER)}'); 
+}
+int encodeSensors({required bool accel, required bool gyro, required bool magnet}) {
+  int flags = 0;
+  if (accel) flags |= SENSOR_ACCELEROMETER;
+  if (gyro) flags |= SENSOR_GYROSCOPE;
+  if (magnet) flags |= SENSOR_MAGNETOMETER;
+  return flags;
+}
+
+bool isSensorActive(int flags, int sensor) {
+  return (flags & sensor) != 0;
+}
+```
+
 5. **Проверка четности без остатка от деления:** Проверьте, является ли целое число четным, используя побитовое умножение `(number & 1) == 0`.
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/87b32152-1281-4148-9ed5-5ed7c32763f7" />
+
+```dart
+void main() {
+  
+  print('Число 4 четное? ${isEven(4)}'); 
+  print('Число 7 четное? ${isEven(7)}'); 
+  print('Число 0 четное? ${isEven(0)}');
+  print('Число -2 четное? ${isEven(-2)}'); 
+}
+
+
+bool isEven(int number) {
+  
+  return (number & 1) == 0;
+}
+```
 
 ---
 
