@@ -266,10 +266,100 @@ void main() {
 ### Задания для закрепления
 
 1. **Маскирование email:** Напишите функцию, преобразующую `ivanov.flutter@gmail.com` в `i************r@gmail.com`.
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0e43c0bf-bba9-490f-8e20-26ef19426295" />
+
+```dart
+String maskEmail(String email) {
+  final parts = email.split('@');
+  if (parts.length != 2) return email;
+  
+  final name = parts[0];
+  final domain = parts[1];
+  
+  if (name.length <= 2) return email;
+  
+  final firstChar = name[0];
+  final lastChar = name[name.length - 1];
+  final stars = '*' * (name.length - 2);
+  
+  return '$firstChar$stars$lastChar@$domain';
+}
+
+void main() {
+  print(maskEmail('ivanov.flutter@gmail.com'));
+}
+```
+
 2. **Валидатор префикса ссылки:** Проверьте, начинается ли переданная строка с безопасного протокола `https://` с помощью метода `.startsWith()`.
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7089834f-f884-4438-a572-57dbcc1e31ee" />
+
+```dart
+bool isSecureLink(String url) {
+  return url.startsWith('https://');
+}
+
+void main() {
+  print(isSecureLink('https://dart.dev'));
+  print(isSecureLink('http://dart.dev'));
+}
+```
+
 3. **Генератор инициалов (Monogram):** Примите строку из двух слов («Александр Пушкин») и верните заглавные буквы «АП».
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/42aeb589-ee0b-4bf7-a97d-107313fd43aa" />
+
+```dart
+String getInitials(String fullName) {
+  final words = fullName.trim().split(RegExp(r'\s+'));
+  if (words.length < 2) return '';
+  
+  return words[0][0].toUpperCase() + words[1][0].toUpperCase();
+}
+
+void main() {
+  print(getInitials('Александр Пушкин'));
+}
+```
+
 4. **Разбор CSV-строки корзины:** Разбейте строку вида `"Яблоко,3,150.5"` методом `.split(',')` и извлеките наименование, количество и стоимость.
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/27f6a912-b572-4d14-9aa9-1fe5e0e04da3" />
+
+```dart
+Map<String, dynamic> parseCartItem(String csv) {
+  final parts = csv.split(',');
+  
+  return {
+    'name': parts[0],
+    'quantity': int.tryParse(parts[1]) ?? 0,
+    'price': double.tryParse(parts[2]) ?? 0.0,
+  };
+}
+
+void main() {
+  final item = parseCartItem('Яблоко,3,150.5');
+  print('Наименование: ${item['name']}');
+  print('Количество: ${item['quantity']}');
+  print('Стоимость: ${item['price']}');
+}
+```
+
 5. **Подсчет реальной длины строки с эмодзи:** Напишите утилиту, которая считает точное количество символов в тексте с комбинированными эмодзи (через `.runes`).
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/498821c6-17b5-45c5-9d01-ba386630e051" />
+
+```dart
+int getRealLength(String text) {
+  return text.runes.length;
+}
+
+void main() {
+  const textWithEmoji = 'Привет 👨‍👩‍👧‍👦!';
+  print(getRealLength(textWithEmoji));
+}
+```
 
 ---
 
