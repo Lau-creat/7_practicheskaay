@@ -660,37 +660,126 @@ void main() {
 
 1. **Подсчет частоты слов:** Дана строка текста. С помощью `Map<String, int>` подсчитайте, сколько раз каждое слово встречается в тексте.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4cb9f98b-814f-4194-ae75-2440e1a3d9fd" />
 
 ```dart
+Map<String, int> countWordFrequency(String text) {
+  final words = text.toLowerCase().split(RegExp(r'\s+'));
+  final frequencyMap = <String, int>{};
 
+  for (var word in words) {
+    if (word.isNotEmpty) {
+      frequencyMap[word] = (frequencyMap[word] ?? 0) + 1;
+    }
+  }
+
+  return frequencyMap;
+}
+
+void main() {
+  const text = 'яблоко банан яблоко апельсин банан яблоко';
+  print(countWordFrequency(text));
+}
 ```
 
 2. **Симметрическая разность тегов:** Найдите теги, которые присутствуют только в одном из двух множеств `Set<String>`, но не в обоих одновременно.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fca6fd43-8355-4e97-8762-e6cebca9722e" />
 
 ```dart
+Set<String> symmetricDifference(Set<String> set1, Set<String> set2) {
+  final diff1 = set1.difference(set2);
+  final diff2 = set2.difference(set1);
+  return diff1.union(diff2);
+}
 
+void main() {
+  final setA = {'flutter', 'dart', 'android'};
+  final setB = {'dart', 'ios', 'swift'};
+  
+  print(symmetricDifference(setA, setB));
+}
 ```
 
 3. **Безопасное извлечение настроек:** Напишите функцию, извлекающую значение `String` из вложенной `Map<String, dynamic>` с гарантированным возвратом дефолтного значения при отсутствии ключа.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b0945470-1cda-40da-be17-6fb92ea2f794" />
 
 ```dart
+String getStringSetting(Map<String, dynamic> settings, String key, {String defaultValue = ''}) {
+  final value = settings[key];
+  if (value is String) {
+    return value;
+  }
+  return defaultValue;
+}
 
+void main() {
+  final Map<String, dynamic> config = {
+    'appName': 'MyApp',
+    'version': 1.0,
+    'isDebug': true,
+  };
+
+  print(getStringSetting(config, 'appName', defaultValue: 'Unknown'));
+  print(getStringSetting(config, 'version', defaultValue: '1.0.0'));
+  print(getStringSetting(config, 'missingKey', defaultValue: 'Default'));
+}
 ```
 
 4. **Трансформация карты (Map Entries):** Преобразуйте `Map<String, double>` с ценами в рублях в карту с ценами в долларах с помощью `.map()`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2c1499f8-6e18-4a6a-b6a5-a2e96d17513c" />
 
 ```dart
+Map<String, double> convertToDollars(Map<String, double> rubles, double usdRate) {
+  return rubles.map((key, value) => MapEntry(key, value / usdRate));
+}
 
+void main() {
+  final pricesInRubles = {
+    'Хлеб': 50.0,
+    'Молоко': 80.0,
+    'Сыр': 400.0,
+  };
+  
+  final pricesInDollars = convertToDollars(pricesInRubles, 90.0);
+  print(pricesInDollars);
+}
 ```
 
 5. **Группировка пользователей по городу:** Дан список карт пользователей. Сгруппируйте их в структуру `Map<String, List<Map<String, dynamic>>>`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3c73453d-e8bb-46e0-99a4-09f1062c5ea4" />
 
 ```dart
+Map<String, List<Map<String, dynamic>>> groupUsersByCity(List<Map<String, dynamic>> users) {
+  final groupedUsers = <String, List<Map<String, dynamic>>>{};
 
+  for (final user in users) {
+    final city = user['city'] as String? ?? 'Неизвестно';
+    
+    if (!groupedUsers.containsKey(city)) {
+      groupedUsers[city] = [];
+    }
+    
+    groupedUsers[city]!.add(user);
+  }
+
+  return groupedUsers;
+}
+
+void main() {
+  final users = [
+    {'name': 'Иван', 'city': 'Москва'},
+    {'name': 'Анна', 'city': 'Санкт-Петербург'},
+    {'name': 'Олег', 'city': 'Москва'},
+    {'name': 'Мария', 'city': 'Казань'},
+  ];
+
+  final result = groupUsersByCity(users);
+  print(result);
+}
 ```
 
 ---
@@ -745,37 +834,93 @@ void main() {
 
 1. **Координаты экрана через Record:** Напишите функцию, возвращающую кортеж `(double x, double y)` центра экрана смартфона.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ec4ad12a-e3ed-4d9a-b3a8-17af8a898a80" />
 
 ```dart
+(double x, double y) getScreenCenter(double screenWidth, double screenHeight) {
+  return (screenWidth / 2, screenHeight / 2);
+}
 
+void main() {
+  final center = getScreenCenter(1080.0, 2400.0);
+  print(center);
+}
 ```
 
 2. **Безопасная распаковка профиля:** Дана переменная `String? bio`. Если она `null`, запишите в переменную `displayBio` текст «Информация отсутствует».
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5cc981c0-2ea0-4584-8cdd-b02286143911" />
 
 ```dart
-
+void main() {
+  String? bio; // Может быть null или содержать текст
+  
+  String displayBio = bio ?? 'Информация отсутствует';
+  
+  print(displayBio);
+}
 ```
 
 3. **Pattern Matching над JSON:** Используя конструкцию `switch (json)`, проверьте формат входящего пакета: валидный объект с `id` или объект с полем ошибки.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/51190af8-3435-4808-a382-3bc20abbdcc8" />
 
 ```dart
+void checkJsonFormat(Map<String, dynamic> json) {
+  switch (json) {
+    case {'id': var id}:
+      print('Валидный объект с id: $id');
+    case {'error': var errorMessage}:
+      print('Объект с ошибкой: $errorMessage');
+    default:
+      print('Неизвестный формат пакета');
+  }
+}
 
+void main() {
+  checkJsonFormat({'id': 1, 'name': 'Ivan'});
+  checkJsonFormat({'error': 'Not Found'});
+  checkJsonFormat({'status': 'ok'});
+}
 ```
 
 4. **Служебная переменная с `late`:** Объявите переменную `late final double expensiveCalculation`, которая вычисляется только при первом реальном обращении.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b5949c9f-874e-43ac-afeb-f1636683ec8d" />
 
 ```dart
+late final double expensiveCalculation = calculateSomething();
 
+double calculateSomething() {
+  print('Выполнение сложных вычислений...');
+  return 3.14159;
+}
+
+void main() {
+  print('Программа запущена');
+  print('Переменная еще не вычислена');
+  
+  // Первое обращение - запускается вычисление
+  print('Результат: $expensiveCalculation');
+  
+  // Второе обращение - берется готовое значение
+  print('Результат снова: $expensiveCalculation');
+}
 ```
 
 5. **Безопасный поиск в списке:** Извлеките первый элемент списка `List<int>? numbers` через операторы `?.[0]` и `?? -1`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/079c0bbc-717c-4405-8484-aef749f3a4e2" />
 
 ```dart
-
+void main() {
+  List<int>? numbers = [10, 20, 30];
+  // List<int>? numbers = null; // Для проверки случая с null
+  
+  int firstElement = numbers?[0] ?? -1;
+  
+  print(firstElement);
+}
 ```
 
 ---
@@ -788,353 +933,1060 @@ void main() {
 
 1. **Калькулятор скидки с промокодом:** Рассчитайте итоговую стоимость заказа при условии: скидка 15%, но не более 500 рублей.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0b05de7f-24b8-404f-b0e0-47c5d3f3214b" />
 
 ```dart
+double calculateTotalCost(double price) {
+  double discount = price * 0.15;
+  if (discount > 500) {
+    discount = 500;
+  }
+  return price - discount;
+}
 
+void main() {
+  print(calculateTotalCost(1000)); // 850.0
+  print(calculateTotalCost(5000)); // 4500.0
+}
 ```
 
 2. **Форматирование цены по стандарту валют:** Преобразуйте число `15400900.5` в строку `"15 400 900.50 ₽"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5f2325a1-1ed3-446d-b25a-7306630f25a0" />
 
 ```dart
+String formatPrice(double price) {
+  final parts = price.toStringAsFixed(2).split('.');
+  final integerPart = parts[0];
+  final decimalPart = parts[1];
+  
+  final buffer = StringBuffer();
+  int count = 0;
+  
+  for (int i = integerPart.length - 1; i >= 0; i--) {
+    buffer.write(integerPart[i]);
+    count++;
+    if (count == 3 && i != 0) {
+      buffer.write(' ');
+      count = 0;
+    }
+  }
+  
+  final formattedInteger = buffer.toString().split('').reversed.join('');
+  return '$formattedInteger.$decimalPart ₽';
+}
 
+void main() {
+  print(formatPrice(15400900.5)); // 15 400 900.50 ₽
+}
 ```
 
 3. **Расчет кешбэка баллами:** Начислите 1 балл за каждые полные 100 рублей чека, используя оператор целочисленного деления `~/`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9236ecb7-6e4e-42d2-ab6c-5936f9cce04e" />
 
 ```dart
+int calculateCashback(double checkAmount) {
+  return checkAmount ~/ 100;
+}
 
+void main() {
+  print(calculateCashback(350)); // 3
+  print(calculateCashback(99)); // 0
+}
 ```
 
 4. **Ограничитель диапазона (Clamp):** Напишите функцию, ограничивающую уровень громкости динамика в диапазоне от `0.0` до `1.0`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c306bd36-c644-4dc4-8062-c8643e26f788" />
 
 ```dart
+double clampVolume(double volume) {
+  return volume.clamp(0.0, 1.0);
+}
 
+void main() {
+  print(clampVolume(-0.5)); // 0.0
+  print(clampVolume(0.5)); // 0.5
+  print(clampVolume(1.5)); // 1.0
+}
 ```
  
 5. **Конвертер байтов в мегабайты:** Преобразуйте размер файла из байтов в МБ с округлением до одного знака после запятой.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2e1fe2c9-0bb1-4fff-8ed0-a28c52ca5c03" />
 
 ```dart
+double convertBytesToMb(int bytes) {
+  final mb = bytes / (1024 * 1024);
+  return double.parse(mb.toStringAsFixed(1));
+}
 
+void main() {
+  print(convertBytesToMb(1572864)); // 1.5
+  print(convertBytesToMb(5000000)); // 4.8
+}
 ```
 
 6. **Вычисление процентного прогресса:** По текущему шагу `current` и общему числу шагов `total` верните `double` от `0.0` до `1.0`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/15a0d05a-1eba-4f41-8e67-fa8d8be3ec3f" />
 
 ```dart
+double calculateProgress(int current, int total) {
+  if (total <= 0) return 0.0;
+  return (current / total).clamp(0.0, 1.0);
+}
 
+void main() {
+  print(calculateProgress(5, 10)); // 0.5
+  print(calculateProgress(15, 10)); // 1.0
+}
 ```
 
 7. **Округление до ближайшего десятка:** Округлите переданное число вверх до ближайшего числа, кратного 10 (например, `43` -> `50`).
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a2febeed-ea51-4fba-b1d7-f9177ad6d6cf" />
 
 ```dart
+int roundUpToNearestTen(int number) {
+  return ((number + 9) ~/ 10) * 10;
+}
 
+void main() {
+  print(roundUpToNearestTen(43)); // 50
+  print(roundUpToNearestTen(40)); // 40
+  print(roundUpToNearestTen(41)); // 50
+}
 ```
 
 8. **Калькулятор стоимости доставки:** Базовая ставка 200 руб. + 30 руб. за каждый километр свыше 5 км.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/496898b6-a181-4b86-a4ac-5e0fcb75e751" />
 
 ```dart
+double calculateDeliveryCost(double distanceKm) {
+  double baseCost = 200;
+  if (distanceKm > 5) {
+    baseCost += (distanceKm - 5) * 30;
+  }
+  return baseCost;
+}
 
+void main() {
+  print(calculateDeliveryCost(3)); // 200.0
+  print(calculateDeliveryCost(10)); // 350.0
+}
 ```
 
 9. **Проверка делимости без остатка:** Определите, делится ли размер скачиваемого пакета ровно на блоки по 1024 байта.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5f34bcc8-5f08-451e-99e9-b3ae26a127a3" />
 
 ```dart
+bool isDivisibleBy1024(int sizeBytes) {
+  return sizeBytes % 1024 == 0;
+}
 
+void main() {
+  print(isDivisibleBy1024(2048)); // true
+  print(isDivisibleBy1024(2050)); // false
+}
 ```
 
 10. **Парсер диапазона цен:** Извлеките минимальную и максимальную цену из строки `"1500 - 4500 руб"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/03082f2d-ffa5-45c9-bc33-4a874fa0ed4a" />
 
 ```dart
+({int min, int max}) parsePriceRange(String input) {
+  final matches = RegExp(r'\d+').allMatches(input).map((m) => int.parse(m.group(0)!)).toList();
+  if (matches.length >= 2) {
+    return (min: matches[0], max: matches[1]);
+  }
+  return (min: 0, max: 0);
+}
 
+void main() {
+  final range = parsePriceRange("1500 - 4500 руб");
+  print('Min: ${range.min}, Max: ${range.max}');
+}
 ```
 
 ### Блок 2: Строки, валидация полей и парсинг текста (11–20)
 
 11. **Валидатор пароля на регулярных выражениях:** Проверьте пароль на наличие минимум 8 символов, одной цифры и одной заглавной буквы.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/50916fe7-366c-4447-97ca-f9f19d530d65" />
 
 ```dart
+bool isValidPassword(String password) {
+  final regex = RegExp(r'^(?=.*[A-Z])(?=.*\d).{8,}$');
+  return regex.hasMatch(password);
+}
 
+void main() {
+  print(isValidPassword('Password1'));
+  print(isValidPassword('password1'));
+}
 ```
 
 12. **Очистка поискового ввода:** Удалите из поискового запроса двойные пробелы, спецсимволы `#`, `$`, `%` и приведите к нижнему регистру.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4e0331d7-f631-4797-bbb7-c44e8751d376" />
 
 ```dart
+String cleanSearchQuery(String query) {
+  String result = query.replaceAll(RegExp(r'[#\$%]'), '');
+  result = result.replaceAll(RegExp(r'\s+'), ' ');
+  return result.trim().toLowerCase();
+}
 
+void main() {
+  print(cleanSearchQuery(' Flutter #разработка \$код %сложно '));
+}
 ```
 
 13. **Генератор сокращенного имени автора:** Преобразуйте `"Иванов Иван Иванович"` в `"Иванов И. И."`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3ea74013-6206-4062-9aad-0eaf72836589" />
 
 ```dart
+String shortenAuthorName(String fullName) {
+  final parts = fullName.trim().split(RegExp(r'\s+'));
+  if (parts.length < 3) return fullName;
+  
+  final lastName = parts[0];
+  final firstNameInitial = parts[1][0].toUpperCase();
+  final middleNameInitial = parts[2][0].toUpperCase();
+  
+  return '$lastName $firstNameInitial. $middleNameInitial.';
+}
 
+void main() {
+  print(shortenAuthorName('Иванов Иван Иванович'));
+}
 ```
 
 14. **Парсинг HEX-цвета для Flutter:** Преобразуйте строку вида `"#FF5722"` в целочисленное значение цвета `int` (`0xFFFF5722`).
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/17028209-2d9b-429e-8729-808270b851b8" />
 
 ```dart
+int parseHexColor(String hexColor) {
+  String cleanHex = hexColor.replaceAll('#', '');
+  if (cleanHex.length == 6) {
+    cleanHex = 'FF$cleanHex';
+  }
+  return int.parse(cleanHex, radix: 16);
+}
 
+void main() {
+  print(parseHexColor('#FF5722').toRadixString(16).toUpperCase());
+}
 ```
 
 15. **Форматирование таймера звонка:** Переведите количество секунд `int seconds = 125` в строку вида `"02:05"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/27c1cbe2-e2b5-403a-8342-a9dba737c45a" />
 
 ```dart
+String formatCallTimer(int totalSeconds) {
+  final minutes = (totalSeconds ~/ 60).toString().padLeft(2, '0');
+  final seconds = (totalSeconds % 60).toString().padLeft(2, '0');
+  return '$minutes:$seconds';
+}
 
+void main() {
+  print(formatCallTimer(125));
+}
 ```
 
 16. **Скрытие номера телефона:** Преобразуйте `"+79991234567"` в `"+7 (999) ***-**-67"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/574fc28d-e518-445f-bf84-b4e77a5f934c" />
 
 ```dart
+String maskPhoneNumber(String phone) {
+  if (phone.length < 12) return phone;
+  
+  final prefix = phone.substring(0, 2);
+  final operatorCode = phone.substring(2, 5);
+  final suffix = phone.substring(phone.length - 2);
+  
+  return '$prefix ($operatorCode) ***-**-$suffix';
+}
 
+void main() {
+  print(maskPhoneNumber('+79991234567'));
+}
 ```
 
 17. **Определитель языка текста (Кириллица/Латиница):** Определите, содержит ли строка символы русского алфавита с помощью проверки диапазонов кодовых точек.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fcffec6f-fe79-4fa9-a615-fa9c9d599339" />
 
 ```dart
+bool isCyrillic(String text) {
+  for (final rune in text.runes) {
+    if (rune >= 0x0400 && rune <= 0x04FF) {
+      return true;
+    }
+  }
+  return false;
+}
 
+void main() {
+  print(isCyrillic('Hello'));
+  print(isCyrillic('Привет'));
+}
 ```
 
 18. **Генератор слага (Slugify):** Преобразуйте заголовок статьи `"Быстрый старт во Flutter!"` в `"bystryi-start-vo-flutter"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c7db6707-5931-4e87-a4dd-e8c968c25ed6" />
 
 ```dart
+String slugify(String title) {
+  final translitMap = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e',
+    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'i', 'к': 'k', 'л': 'l', 'м': 'm',
+    'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+    'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
+    'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+  };
+  
+  final lowerText = title.toLowerCase();
+  final buffer = StringBuffer();
+  
+  for (int i = 0; i < lowerText.length; i++) {
+    final char = lowerText[i];
+    if (translitMap.containsKey(char)) {
+      buffer.write(translitMap[char]);
+    } else if (RegExp(r'[a-z0-9]').hasMatch(char)) {
+      buffer.write(char);
+    } else if (char == ' ' || char == '!' || char == '?' || char == ',' || char == '.') {
+      buffer.write('-');
+    }
+  }
+  
+  return buffer.toString().replaceAll(RegExp(r'-+'), '-').replaceAll(RegExp(r'^-|-$'), '');
+}
 
+void main() {
+  print(slugify('Быстрый старт во Flutter!'));
+}
 ```
 
 19. **Подсчет слов в заметке:** Подсчитайте количество слов в тексте заметки, разделенных пробелами и переносами строк.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/48f6a3a0-c5c9-4d31-b5ea-adf1f7980e9e" />
 
 ```dart
+int countWords(String text) {
+  final trimmed = text.trim();
+  if (trimmed.isEmpty) return 0;
+  return trimmed.split(RegExp(r'\s+')).length;
+}
 
+void main() {
+  print(countWords('Это простой\nтекст с переносами\nи пробелами'));
+}
 ```
 
 20. **Выделение тегов из текста:** Извлеките все хештеги из сообщения блога (слова, начинающиеся с `#`).
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/65310495-864b-4507-ae3a-a40656b9e90e" />
 
 ```dart
+List<String> extractHashtags(String text) {
+  final regex = RegExp(r'#\w+');
+  return regex.allMatches(text).map((match) => match.group(0)!).toList();
+}
 
+void main() {
+  print(extractHashtags('Изучаю #Flutter и #Dart. Отличный #блог!'));
+}
 ```
 
 ### Блок 3: Списки, пагинация и фильтрация каталога (21–30)
 
 21. **Фильтр каталога по диапазону цен:** Из списка карточек товаров отберите только те, у которых цена находится в заданном диапазоне.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/df45a782-9ce5-47b9-99d8-417ba1995138" />
 
 ```dart
+class Product {
+  final String name;
+  final double price;
+  Product(this.name, this.price);
+}
 
+List<Product> filterByPriceRange(List<Product> products, double minPrice, double maxPrice) {
+  return products.where((product) => product.price >= minPrice && product.price <= maxPrice).toList();
+}
+
+void main() {
+  final products = [
+    Product('Товар 1', 150.0),
+    Product('Товар 2', 50.0),
+    Product('Товар 3', 300.0),
+  ];
+  final filtered = filterByPriceRange(products, 100.0, 200.0);
+  print(filtered.map((p) => p.name).toList());
+}
 ```
 
 22. **Удаление завершенных задач из To-Do списка:** Отфильтруйте список задач, оставив только элементы со статусом `isCompleted == false`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1f378e3f-9cb9-448b-b437-bf7d266958bf" />
 
 ```dart
+class Task {
+  final String title;
+  final bool isCompleted;
+  Task(this.title, this.isCompleted);
+}
 
+List<Task> getActiveTasks(List<Task> tasks) {
+  return tasks.where((task) => task.isCompleted == false).toList();
+}
+
+void main() {
+  final tasks = [
+    Task('Купить молоко', true),
+    Task('Сделать зарядку', false),
+    Task('Прочитать книгу', false),
+  ];
+  final active = getActiveTasks(tasks);
+  print(active.map((t) => t.title).toList());
+}
 ```
 
 23. **Инверсия порядка чатов:** Разверните список сообщений без создания промежуточных копий в памяти.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/03eca34d-44f5-4dca-8407-4d074a1853c9" />
 
 ```dart
+void reverseInPlace<T>(List<T> list) {
+  int start = 0;
+  int end = list.length - 1;
+  while (start < end) {
+    final temp = list[start];
+    list[start] = list[end];
+    list[end] = temp;
+    start++;
+    end--;
+  }
+}
 
+void main() {
+  final messages = ['Привет', 'Как дела?', 'Что нового?'];
+  reverseInPlace(messages);
+  print(messages);
+}
 ```
 
 24. **Склейка двух списков баннеров:** Объедините системные промо-акции и персональные предложения с помощью spread-оператора `...`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d59e3295-da88-4d6c-982d-a646a83d1448" />
 
 ```dart
+List<String> mergeBanners(List<String> systemPromos, List<String> personalOffers) {
+  return [...systemPromos, ...personalOffers];
+}
 
+void main() {
+  final system = ['Скидка 10%', 'Новинки'];
+  final personal = ['Специально для вас', 'Бонусы'];
+  print(mergeBanners(system, personal));
+}
 ```
 
 25. **Поиск максимального элемента без библиотек:** Найдите товар с наивысшим рейтингом в списке с помощью метода `.reduce()`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/21c6179b-e05c-49d0-8d39-758d0476dffd" />
 
 ```dart
+class RatedProduct {
+  final String name;
+  final double rating;
+  RatedProduct(this.name, this.rating);
+}
 
+RatedProduct findBestProduct(List<RatedProduct> products) {
+  return products.reduce((current, next) => current.rating > next.rating ? current : next);
+}
+
+void main() {
+  final products = [
+    RatedProduct('Смартфон', 4.5),
+    RatedProduct('Наушники', 4.8),
+    RatedProduct('Чехол', 4.2),
+  ];
+  print(findBestProduct(products).name);
+}
 ```
 
 26. **Чередование элементов списка:** Вставьте рекламный баннер после каждого 5-го элемента ленты новостей.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3b28aae6-7b9a-4a02-b336-8662042bcaef" />
 
 ```dart
+List<String> insertAds(List<String> newsFeed, String ad) {
+  final result = <String>[];
+  for (int i = 0; i < newsFeed.length; i++) {
+    result.add(newsFeed[i]);
+    if ((i + 1) % 5 == 0 && i != newsFeed.length - 1) {
+      result.add(ad);
+    }
+  }
+  return result;
+}
 
+void main() {
+  final news = ['Новость 1', 'Новость 2', 'Новость 3', 'Новость 4', 'Новость 5', 'Новость 6'];
+  print(insertAds(news, 'РЕКЛАМА'));
+}
 ```
 
 27. **Проверка идентичности двух списков:** Напишите функцию, проверяющую, содержат ли два списка одинаковые элементы на тех же позициях.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/85c5f1b9-210a-438f-843d-6c0682e8dc9a" />
 
 ```dart
+bool areIdentical<T>(List<T> list1, List<T> list2) {
+  if (list1.length != list2.length) return false;
+  for (int i = 0; i < list1.length; i++) {
+    if (list1[i] != list2[i]) return false;
+  }
+  return true;
+}
 
+void main() {
+  print(areIdentical([1, 2, 3], [1, 2, 3]));
+  print(areIdentical([1, 2, 3], [1, 2, 4]));
+}
 ```
 
 28. **Извлечение уникальных категорий:** Из списка всех товаров магазина сформируйте `List<String>` уникальных названий категорий.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6a28c23f-e49d-4535-8831-e0e67ba4ca33" />
 
 ```dart
+class StoreItem {
+  final String name;
+  final String category;
+  StoreItem(this.name, this.category);
+}
 
+List<String> getUniqueCategories(List<StoreItem> items) {
+  return items.map((item) => item.category).toSet().toList();
+}
+
+void main() {
+  final items = [
+    StoreItem('Яблоко', 'Фрукты'),
+    StoreItem('Банан', 'Фрукты'),
+    StoreItem('Молоко', 'Молочные продукты'),
+  ];
+  print(getUniqueCategories(items));
+}
 ```
 
 29. **Сортировка списка по нескольким полям:** Отсортируйте список товаров сначала по доступности на складе, а затем по возрастанию цены.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2daf6b8b-137a-4aa0-b1e6-b86f961a65c5" />
 
 ```dart
+class InventoryProduct {
+  final String name;
+  final bool inStock;
+  final double price;
+  InventoryProduct(this.name, this.inStock, this.price);
+}
 
+void sortProducts(List<InventoryProduct> products) {
+  products.sort((a, b) {
+    if (a.inStock != b.inStock) {
+      return a.inStock ? -1 : 1;
+    }
+    return a.price.compareTo(b.price);
+  });
+}
+
+void main() {
+  final products = [
+    InventoryProduct('Товар 1', false, 100.0),
+    InventoryProduct('Товар 2', true, 200.0),
+    InventoryProduct('Товар 3', true, 150.0),
+  ];
+  sortProducts(products);
+  print(products.map((p) => '${p.name} (В наличии: ${p.inStock}, Цена: ${p.price})').toList());
+}
 ```
 
 30. **Постраничная группировка (Chunking):** Разбейте длинный список из 100 элементов на пачки (страницы) по 10 элементов.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/343435e1-fe6e-4d7a-9ae8-908432374611" />
 
 ```dart
+List<List<T>> chunkList<T>(List<T> list, int chunkSize) {
+  final chunks = <List<T>>[];
+  for (int i = 0; i < list.length; i += chunkSize) {
+    final end = (i + chunkSize < list.length) ? i + chunkSize : list.length;
+    chunks.add(list.sublist(i, end));
+  }
+  return chunks;
+}
 
+void main() {
+  final list100 = List.generate(100, (index) => index + 1);
+  final pages = chunkList(list100, 10);
+  print('Количество страниц: ${pages.length}');
+  print('Первая страница: ${pages.first}');
+}
 ```
 
 ### Блок 4: Map, JSON-сериализация и кэширование (31–40)
 
 31. **Десериализация профиля:** Напишите парсер словаря `Map<String, dynamic>` в безопасные локальные переменные с дефолтными значениями.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/be5c4463-f5d8-45f6-89c7-da091cf3289c" />
 
 ```dart
+void parseProfile(Map<String, dynamic> json) {
+  final String name = json['name'] as String? ?? 'Гость';
+  final int age = json['age'] as int? ?? 0;
+  final bool isVerified = json['isVerified'] as bool? ?? false;
 
+  print('Имя: $name, Возраст: $age, Верифицирован: $isVerified');
+}
+
+void main() {
+  final serverResponse = {'name': 'Иван', 'age': 25};
+  parseProfile(serverResponse);
+}
 ```
 
 32. **Конвертация списка в ассоциативную карту:** Преобразуйте `List<User>` в `Map<int, User>`, где ключом выступает уникальный `id`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d5282b73-a790-4416-9adf-7da0da311139" />
 
 ```dart
+class User {
+  final int id;
+  final String name;
+  User(this.id, this.name);
+}
 
+Map<int, User> convertListToMap(List<User> users) {
+  return {for (var user in users) user.id: user};
+}
+
+void main() {
+  final users = [
+    User(1, 'Иван'),
+    User(2, 'Анна'),
+  ];
+  final userMap = convertListToMap(users);
+  print(userMap[1]?.name);
+}
 ```
 
 33. **Слияние локального и серверного профиля:** Объедините настройки приложения из кэша и свежие настройки с бэкенда с приоритетом сервера.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8f07511f-4280-4748-a2f1-1b43141bb85c" />
 
 ```dart
+Map<String, dynamic> mergeSettings(Map<String, dynamic> cache, Map<String, dynamic> server) {
+  return {...cache, ...server};
+}
 
+void main() {
+  final localCache = {'theme': 'dark', 'lang': 'ru', 'fontSize': 14};
+  final serverSettings = {'lang': 'en', 'fontSize': 16};
+  
+  final result = mergeSettings(localCache, serverSettings);
+  print(result);
+}
 ```
 
 34. **Удаление ключей с null-значениями:** Очистите словарь от всех пар, где значение равно `null`, перед отправкой POST-запроса.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fcbbad77-cbf0-431c-9a0f-9db0e3828d3f" />
 
 ```dart
+Map<String, dynamic> removeNullValues(Map<String, dynamic> data) {
+  final cleanedData = Map<String, dynamic>.from(data);
+  cleanedData.removeWhere((key, value) => value == null);
+  return cleanedData;
+}
 
+void main() {
+  final requestBody = {
+    'id': 101,
+    'name': 'Товар',
+    'description': null,
+    'price': 500,
+    'discount': null,
+  };
+  
+  print(removeNullValues(requestBody));
+}
 ```
 
 35. **Кэш экранов (LRU-концепт):** Реализуйте простейшую карту последних 5 открытых страниц, удаляя самый старый элемент при переполнении.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a5cd4aac-1c4c-46b9-8d32-3459e6e49709" />
 
 ```dart
+class ScreenCache {
+  final int capacity;
+  final Map<String, bool> _cache = {};
 
+  ScreenCache(this.capacity);
+
+  void openScreen(String screenName) {
+    if (_cache.containsKey(screenName)) {
+      _cache.remove(screenName);
+    } else if (_cache.length >= capacity) {
+      _cache.remove(_cache.keys.first);
+    }
+    _cache[screenName] = true;
+  }
+
+  void printCache() {
+    print(_cache.keys.toList());
+  }
+}
+
+void main() {
+  final cache = ScreenCache(5);
+  cache.openScreen('Главная');
+  cache.openScreen('Профиль');
+  cache.openScreen('Настройки');
+  cache.openScreen('Корзина');
+  cache.openScreen('Каталог');
+  cache.openScreen('Оплата');
+  cache.printCache();
+}
 ```
 
 36. **Инверсия карты (Значения становятся ключами):** Поменяйте местами ключи и значения в словаре `Map<String, String>` (гарантируя уникальность).
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e3a6d026-db15-4bd4-862c-f1fdc3b19645" />
 
 ```dart
+Map<String, String> invertMap(Map<String, String> original) {
+  return original.map((key, value) => MapEntry(value, key));
+}
 
+void main() {
+  final dictionary = {
+    'apple': 'яблоко',
+    'dog': 'собака',
+  };
+  print(invertMap(dictionary));
+}
 ```
 
 37. **Подсчет суммы товаров по категориям:** На основе списка покупок верните `Map<String, double>`, где ключ — категория, а значение — общая сумма затрат.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/066512e9-51ab-4e1f-b6eb-82d9256e92b0" />
 
 ```dart
+class Purchase {
+  final String category;
+  final double amount;
+  Purchase(this.category, this.amount);
+}
 
+Map<String, double> calculateCategoryTotals(List<Purchase> purchases) {
+  final totals = <String, double>{};
+  for (final purchase in purchases) {
+    totals[purchase.category] = (totals[purchase.category] ?? 0.0) + purchase.amount;
+  }
+  return totals;
+}
+
+void main() {
+  final purchases = [
+    Purchase('Еда', 1500.0),
+    Purchase('Транспорт', 500.0),
+    Purchase('Еда', 700.0),
+  ];
+  print(calculateCategoryTotals(purchases));
+}
 ```
 
 38. **Валидация обязательных JSON-полей:** Проверьте, содержит ли карта ответа сервера ключи `"status"`, `"data"` и `"timestamp"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6aa440eb-9eff-44ec-a9fc-c7b9be0e2c1c" />
 
 ```dart
+bool validateResponse(Map<String, dynamic> response) {
+  return response.containsKey('status') &&
+         response.containsKey('data') &&
+         response.containsKey('timestamp');
+}
 
+void main() {
+  final validResponse = {'status': 'ok', 'data': [], 'timestamp': 123456789};
+  final invalidResponse = {'status': 'ok', 'data': []};
+  
+  print(validateResponse(validResponse));
+  print(validateResponse(invalidResponse));
+}
 ```
 
 39. **Построение дерева категорий:** Преобразуйте плоский список категорий с `parentId` в иерархическую карту подкатегорий.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d15d6ce1-3e93-46e0-aadf-8b3c11018f8a" />
 
 ```dart
+class Category {
+  final int id;
+  final int? parentId;
+  final String name;
+  Category(this.id, this.parentId, this.name);
+}
 
+Map<int?, List<Category>> buildCategoryTree(List<Category> categories) {
+  final tree = <int?, List<Category>>{};
+  for (final category in categories) {
+    tree.putIfAbsent(category.parentId, () => []).add(category);
+  }
+  return tree;
+}
+
+void main() {
+  final flatCategories = [
+    Category(1, null, 'Электроника'),
+    Category(2, null, 'Одежда'),
+    Category(3, 1, 'Смартфоны'),
+    Category(4, 1, 'Ноутбуки'),
+    Category(5, 2, 'Футболки'),
+  ];
+  
+  final tree = buildCategoryTree(flatCategories);
+  print(tree[1]?.map((c) => c.name).toList());
+}
 ```
 
 40. **Сериализация параметров фильтра в URL:** Соберите из словаря `{"brand": "Apple", "minPrice": 50000}` строку параметров `brand=Apple&minPrice=50000`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1ac6eb89-dbfe-416d-b6ba-09e183e1f481" />
 
 ```dart
+String buildQueryString(Map<String, dynamic> params) {
+  return params.entries.map((e) => '${e.key}=${e.value}').join('&');
+}
 
+void main() {
+  final filters = {
+    'brand': 'Apple',
+    'minPrice': 50000,
+  };
+  
+  print(buildQueryString(filters));
+}
 ```
 
 ### Блок 5: Sound Null Safety, Records и архитектурные пайплайны (41–50)
 
 41. **Парсер геолокации через Record:** Напишите функцию, принимающую строку `"54.01, 38.29"` и возвращающую кортеж `(double lat, double lon)?`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d6c5cc4e-2537-405b-aac9-b385bcb46d8f" />
 
 ```dart
+(double lat, double lon)? parseCoordinates(String input) {
+  final parts = input.split(',');
+  if (parts.length != 2) return null;
 
+  final lat = double.tryParse(parts[0].trim());
+  final lon = double.tryParse(parts[1].trim());
+
+  if (lat != null && lon != null) {
+    return (lat, lon);
+  }
+  return null;
+}
+
+void main() {
+  print(parseCoordinates("54.01, 38.29"));
+  print(parseCoordinates("ошибка"));
+}
 ```
 
 42. **Резолвер состояний загрузки (Pattern Matching):** С помощью `switch` верните текст сообщения для состояний `(isLoading: true, hasError: false)`, `(isLoading: false, hasError: true)` и `(isLoading: false, hasError: false)`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4ed444d3-6a04-4bf8-a265-fb07aa91ff1a" />
 
 ```dart
+String resolveState(({bool isLoading, bool hasError}) state) {
+  return switch (state) {
+    (isLoading: true, hasError: false) => 'Идет загрузка...',
+    (isLoading: false, hasError: true) => 'Произошла ошибка',
+    (isLoading: false, hasError: false) => 'Успешно загружено',
+    _ => 'Неизвестное состояние',
+  };
+}
 
+void main() {
+  print(resolveState((isLoading: true, hasError: false)));
+  print(resolveState((isLoading: false, hasError: true)));
+}
 ```
 
 43. **Безопасная цепочка вызовов (Deep Null Traversal):** Считайте улицу из вложенного объекта компании: `user?.company?.address?.street ?? "Адрес не указан"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/33ef8870-4e62-4b8a-a322-d7e53bc034b7" />
 
 ```dart
+class Address {
+  final String? street;
+  Address(this.street);
+}
 
+class Company {
+  final Address? address;
+  Company(this.address);
+}
+
+class User {
+  final Company? company;
+  User(this.company);
+}
+
+String getStreet(User? user) {
+  return user?.company?.address?.street ?? "Адрес не указан";
+}
+
+void main() {
+  final user = User(Company(Address(null)));
+  print(getStreet(user));
+}
 ```
 
 44. **Сопоставление типа ответа API:** Напишите функцию обработки ответа через сопоставление типов: `case int code`, `case String error`, `case Map data`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4ece36fe-6d59-43cf-9aff-54acb170a003" />
 
 ```dart
+void handleApiResponse(Object response) {
+  switch (response) {
+    case int code:
+      print('Получен код: $code');
+    case String error:
+      print('Текст ошибки: $error');
+    case Map data:
+      print('Данные: $data');
+    default:
+      print('Неизвестный формат ответа');
+  }
+}
 
+void main() {
+  handleApiResponse(404);
+  handleApiResponse("Not Found");
+  handleApiResponse({"id": 1});
+}
 ```
 
 45. **Деструктуризация координат точки в цикле:** Пройдитесь по списку кортежей `List<(int x, int y)>` с прямой деструктуризацией `for (var (x, y) in points)`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d29f7d70-17cc-4052-8c1b-986f93d08695" />
 
 ```dart
+void main() {
+  final List<(int, int)> points = [(1, 2), (3, 4), (5, 6)];
 
+  for (var (x, y) in points) {
+    print('Координата X: $x, Координата Y: $y');
+  }
+}
 ```
 
 46. **Обмен значений двух переменных без третьей:** Поменяйте местами значения переменных `a` и `b` с помощью синтаксиса кортежей: `(a, b) = (b, a)`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/27035727-6e59-4234-aaf7-7cfd16500f03" />
+
 
 ```dart
-
+void main() {
+  int a = 10;
+  int b = 20;
+  
+  print('До обмена: a = $a, b = $b');
+  
+  (a, b) = (b, a);
+  
+  print('После обмена: a = $a, b = $b');
+}
 ```
 
 47. **Валидатор комплексной формы регистрации:** Функция возвращает Record `({bool isValid, List<String> errors})` с перечнем всех найденных ошибок формы.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/32300c98-46d9-4181-8dbe-3fe139fecd01" />
 
 ```dart
+({bool isValid, List<String> errors}) validateForm(String email, String password) {
+  final errors = <String>[];
 
+  if (!email.contains('@')) {
+    errors.add('Некорректный email');
+  }
+  if (password.length < 8) {
+    errors.add('Пароль должен быть не менее 8 символов');
+  }
+
+  return (isValid: errors.isEmpty, errors: errors);
+}
+
+void main() {
+  final result = validateForm('test', '123');
+  print('Валидно: ${result.isValid}');
+  print('Ошибки: ${result.errors}');
+}
 ```
 
 48. **Обработка диапазона громкости через Switch Guard:** Используйте паттерн с условием `when`: `case int v when v > 80 => "Слишком громко!"`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e89331a4-d9f5-43f8-b255-5ca3e5fbbe14" />
 
 ```dart
+String checkVolume(int volume) {
+  return switch (volume) {
+    int v when v > 80 => "Слишком громко!",
+    int v when v < 10 => "Слишком тихо",
+    _ => "Комфортная громкость",
+  };
+}
 
+void main() {
+  print(checkVolume(95));
+  print(checkVolume(50));
+}
 ```
 
 49. **Пайплайн очистки телефонной книги:** Дан список `List<String?>` с поврежденными записями. Очистите его от `null`, пустых строк и верните `Set<String>` уникальных нормализованных номеров.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2304cc0a-366a-4593-8584-ae4b7f6489cc" />
 
 ```dart
+Set<String> cleanPhoneBook(List<String?> rawNumbers) {
+  return rawNumbers
+      .whereType<String>()
+      .map((e) => e.replaceAll(RegExp(r'[^\d+]'), ''))
+      .where((e) => e.isNotEmpty)
+      .toSet();
+}
 
+void main() {
+  final rawData = [null, "+7 (999) 123-45-67", "", "89991234567", "+79991234567"];
+  print(cleanPhoneBook(rawData));
+}
 ```
 
 50. **Итоговый аналитический модуль корзины:**
@@ -1143,9 +1995,45 @@ void main() {
     - Выделите категории товаров и проверьте бесплатность доставки (от 2000 руб.).
     - Верните результат в виде именованного кортежа `({double total, double discountAmount, bool isFreeDelivery})`.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2028c3d2-0df6-4127-b726-9da53e31892c" />
 
 ```dart
+({double total, double discountAmount, bool isFreeDelivery}) analyzeCart(List<Map<String, dynamic>> cart) {
+  double total = 0.0;
+  double discountAmount = 0.0;
 
+  for (final item in cart) {
+    final double price = (item['price'] as num).toDouble();
+    final int quantity = item['quantity'] as int;
+    final double discountPercent = (item['discount'] as num).toDouble();
+
+    final originalSum = price * quantity;
+    final currentDiscount = originalSum * (discountPercent / 100);
+
+    discountAmount += currentDiscount;
+    total += (originalSum - currentDiscount);
+  }
+
+  final bool isFreeDelivery = total >= 2000.0;
+
+  return (
+    total: total,
+    discountAmount: discountAmount,
+    isFreeDelivery: isFreeDelivery
+  );
+}
+
+void main() {
+  final cart = [
+    {'name': 'Телефон', 'price': 2000.0, 'quantity': 1, 'discount': 10.0},
+    {'name': 'Чехол', 'price': 500.0, 'quantity': 2, 'discount': 5.0},
+  ];
+
+  final result = analyzeCart(cart);
+  print('Итого: ${result.total} руб.');
+  print('Скидка: ${result.discountAmount} руб.');
+  print('Бесплатная доставка: ${result.isFreeDelivery}');
+}
 ```
 
 ---
